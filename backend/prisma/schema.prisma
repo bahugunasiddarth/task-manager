@@ -1,0 +1,25 @@
+datasource db {
+  provider = "postgresql" // or "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  password     String
+  refreshToken String?
+  tasks        Task[]
+}
+
+model Task {
+  id        String   @id @default(uuid())
+  title     String
+  status    String   @default("pending") // pending, completed
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
