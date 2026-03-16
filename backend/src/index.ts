@@ -11,7 +11,8 @@ const PORT = 5000;
 // This allows requests from your Vercel frontend, while also letting you test locally
 app.use(cors({
   origin: [
-    "https://task-manager-backend-eight-rose.vercel.app", 
+    "https://task-manager-backend-eight-rose.vercel.app",
+    "https://task-manager-kappa-kohl.vercel.app", 
     "http://localhost:3000", 
     "http://localhost:3001"
   ], 
