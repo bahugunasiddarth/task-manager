@@ -31,3 +31,8 @@ app.post("/tasks", authenticateToken, createTask);
 // ADD THESE TWO LINES
 app.patch("/tasks/:id/toggle", authenticateToken, toggleTask);
 app.delete("/tasks/:id", authenticateToken, deleteTask);
+
+app.use(cors({
+  origin: "https://task-manager-backend-eight-rose.vercel.app", 
+  credentials: true
+}));

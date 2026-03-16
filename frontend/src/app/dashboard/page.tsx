@@ -15,7 +15,7 @@ export default function Dashboard() {
       let query = `?search=${search}`;
       if (statusFilter) query += `&status=${statusFilter}`;
       
-      const res = await fetchWithAuth(`http://localhost:5000/tasks${query}`);
+      const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/tasks${query}`);
       if (res.ok) {
         const data = await res.json();
         setTasks(data);
@@ -31,7 +31,7 @@ export default function Dashboard() {
     e.preventDefault();
     if (!newTaskTitle.trim()) return;
 
-    const res = await fetchWithAuth('http://localhost:5000/tasks', {
+    const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/tasks`, {
       method: 'POST',
       body: JSON.stringify({ title: newTaskTitle })
     });
@@ -44,7 +44,7 @@ export default function Dashboard() {
 
   const handleToggleTask = async (id: string, currentStatus: string) => {
     const newStatus = currentStatus === 'pending' ? 'completed' : 'pending';
-    const res = await fetchWithAuth(`http://localhost:5000/tasks/${id}/toggle`, {
+    const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${id}/toggle`, {
       method: 'PATCH',
       body: JSON.stringify({ status: newStatus })
     });
@@ -52,7 +52,7 @@ export default function Dashboard() {
   };
 
   const handleDeleteTask = async (id: string) => {
-    const res = await fetchWithAuth(`http://localhost:5000/tasks/${id}`, { method: 'DELETE' });
+    const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${id}`, { method: 'DELETE' });
     if (res.ok) loadTasks();
   };
 

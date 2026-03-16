@@ -18,7 +18,7 @@ export const fetchWithAuth = async (url: string, options: any = {}) => {
     }
 
     // Call your backend refresh endpoint
-    const refreshRes = await fetch('http://localhost:5000/auth/refresh', {
+    const refreshRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token: refreshToken })
