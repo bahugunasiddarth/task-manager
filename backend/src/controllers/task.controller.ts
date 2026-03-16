@@ -8,15 +8,24 @@ export const getTasks = async (req: any, res: any) => {
     const { status, search, page = 1 } = req.query;
     const skip = (Number(page) - 1) * 10;
 
+    // 1. Start with the required user filter
+    const whereClause: any = {
+      userId: req.user.userId,
+    };
+
+    // 2. Only add the properties if they actually exist
+    if (status) {
+      whereClause.status = String(status);
+    }
+    if (search) {
+      whereClause.title = { contains: String(search), mode: 'insensitive' };
+    }
+
     const tasks = await prisma.task.findMany({
-      where: {
-        userId: req.user.userId,
-        status: status ? String(status) : undefined,
-        title: search ? { contains: String(search), mode: 'insensitive' } : undefined,
-      },
+      where: whereClause, // Pass the dynamically built object
       take: 10,
       skip: skip,
-      orderBy: { createdAt: 'desc' } // Shows newest tasks first
+      orderBy: { createdAt: 'desc' }
     });
     
     res.json(tasks);
