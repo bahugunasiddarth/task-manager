@@ -106,7 +106,7 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Right Side - Visuals (Hidden on mobile) */}
+      {/* Right Side - Visuals */}
       <div className="hidden lg:flex w-1/2 bg-indigo-600 relative overflow-hidden items-center justify-center p-12">
         {/* Decorative Gradients */}
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-indigo-500 via-indigo-600 to-purple-700"></div>

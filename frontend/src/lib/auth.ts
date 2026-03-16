@@ -17,7 +17,6 @@ export const fetchWithAuth = async (url: string, options: any = {}) => {
       return res;
     }
 
-    // Call your backend refresh endpoint
     const refreshRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -28,7 +27,6 @@ export const fetchWithAuth = async (url: string, options: any = {}) => {
       const data = await refreshRes.json();
       localStorage.setItem('accessToken', data.accessToken);
       
-      // Retry the original request with the new token
       res = await fetch(url, {
         ...options,
         headers: { 
@@ -38,7 +36,7 @@ export const fetchWithAuth = async (url: string, options: any = {}) => {
         }
       });
     } else {
-      // Refresh failed (e.g., token expired), force re-login
+      
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       window.location.href = '/';

@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 
-// THIS WAS MISSING!
 const prisma = new PrismaClient();
 
 export const getTasks = async (req: any, res: any) => {
@@ -8,12 +7,10 @@ export const getTasks = async (req: any, res: any) => {
     const { status, search, page = 1 } = req.query;
     const skip = (Number(page) - 1) * 10;
 
-    // 1. Start with the required user filter
     const whereClause: any = {
       userId: req.user.userId,
     };
 
-    // 2. Only add the properties if they actually exist
     if (status) {
       whereClause.status = String(status);
     }
@@ -22,7 +19,7 @@ export const getTasks = async (req: any, res: any) => {
     }
 
     const tasks = await prisma.task.findMany({
-      where: whereClause, // Pass the dynamically built object
+      where: whereClause, 
       take: 10,
       skip: skip,
       orderBy: { createdAt: 'desc' }
@@ -50,14 +47,13 @@ export const createTask = async (req: any, res: any) => {
   }
 };
 
-// NEW: Allows you to check/uncheck tasks
 export const toggleTask = async (req: any, res: any) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
     
     const task = await prisma.task.update({
-      where: { id: id, userId: req.user.userId }, // Ensure users only edit their own tasks
+      where: { id: id, userId: req.user.userId }, 
       data: { status }
     });
     
@@ -68,7 +64,6 @@ export const toggleTask = async (req: any, res: any) => {
   }
 };
 
-// NEW: Allows you to delete tasks
 export const deleteTask = async (req: any, res: any) => {
   try {
     const { id } = req.params;

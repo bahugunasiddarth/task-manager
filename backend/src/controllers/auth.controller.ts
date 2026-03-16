@@ -18,15 +18,12 @@ export const register = async (req: any, res: any) => {
     
     res.status(201).json({ message: "User created" });
   } catch (e: any) {
-    // 1. PRINT THE REAL ERROR TO THE BACKEND TERMINAL
     console.error("🚨 REAL DB ERROR:", e);
 
-    // 2. Check if the error is actually because the email exists
     if (e.code === 'P2002') {
       return res.status(400).json({ error: "Email already exists" });
     }
 
-    // 3. If it's something else, tell the frontend it's a server/DB issue
     res.status(500).json({ error: "Database error. Check the backend terminal for details." });
   }
 };

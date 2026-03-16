@@ -62,7 +62,6 @@ export default function Dashboard() {
     router.push('/');
   };
 
-  // Frontend Derived Stats
   const totalTasks = tasks.length;
   const completedTasks = tasks.filter((t: any) => t.status === 'completed').length;
   const progress = totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
@@ -168,7 +167,7 @@ export default function Dashboard() {
                   </span>
                 </div>
                 
-                {/* Delete button appears on hover */}
+                {/* Delete button*/}
                 <button 
                   onClick={() => handleDeleteTask(task.id)}
                   className="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-500 hover:bg-red-50 p-2 rounded-lg transition-all"

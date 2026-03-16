@@ -31,7 +31,7 @@ export default function RegisterPage() {
   return (
     <div className="flex min-h-screen bg-white dark:bg-zinc-950 font-sans">
       
-      {/* Left Side - Visuals (Hidden on mobile) */}
+      {/* Left Side - Visuals */}
       <div className="hidden lg:flex w-1/2 bg-teal-600 relative overflow-hidden items-center justify-center p-12">
         {/* Decorative Gradients */}
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-teal-400 via-teal-600 to-emerald-800"></div>
