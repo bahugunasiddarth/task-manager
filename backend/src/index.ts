@@ -7,32 +7,40 @@ import { authenticateToken } from "./middleware/auth.middleware.js";
 const app = express();
 const PORT = 5000; 
 
-app.use(cors()); 
+// 1. MIDDLEWARE MUST BE AT THE TOP
+// This allows requests from your Vercel frontend, while also letting you test locally
+app.use(cors({
+  origin: [
+    "https://task-manager-backend-eight-rose.vercel.app", 
+    "http://localhost:3000", 
+    "http://localhost:3001"
+  ], 
+  credentials: true
+}));
 app.use(express.json()); 
 
-// Public Routes
+// 2. PUBLIC ROUTES
 app.post("/auth/register", register);
 app.post("/auth/login", login);
 
-// Protected Routes (Notice authenticateToken is passed in the middle!)
+// 3. PROTECTED ROUTES
 app.get("/tasks", authenticateToken, getTasks);
 app.post("/tasks", authenticateToken, createTask);
-
-app.get("/", (req, res) => {
-  res.send("Server running");
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-app.get("/tasks", authenticateToken, getTasks);
-app.post("/tasks", authenticateToken, createTask);
-
-// ADD THESE TWO LINES
 app.patch("/tasks/:id/toggle", authenticateToken, toggleTask);
 app.delete("/tasks/:id", authenticateToken, deleteTask);
 
-app.use(cors({
-  origin: "https://task-manager-backend-eight-rose.vercel.app", 
-  credentials: true
-}));
+// 4. HEALTH CHECK ROUTE
+app.get("/", (req, res) => {
+  res.send("Task API is running perfectly!");
+});
+
+// 5. VERCEL SERVERLESS EXPORT (CRITICAL)
+// This tells Express to listen on a port locally, but lets Vercel handle it in production
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+// THIS LINE IS REQUIRED FOR VERCEL TO WORK
+export default app;
